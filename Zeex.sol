@@ -70,12 +70,6 @@ contract Zeex is BEP20Token {
   }
   FeeSplit internal _feeSplit;
 
-  // struct Lock {
-  //   uint256 amount;
-  //   uint256 start;
-  //   uint256 end;
-  // }
-
   struct Lock {
     uint256[] amount;
     uint256[] end;
@@ -225,57 +219,13 @@ contract Zeex is BEP20Token {
  /**
    * @dev sets the percentages of fee sharing in the wallets.
    */
-  // function setMintSplit(uint32 holders, uint32 operation, uint32 growth, uint32 fundation,
-  //                       uint32 stake, uint32 publicOffer, uint32 employees, uint32 founders,
-  //                       uint32 influencers, uint32 privateOffer, uint32 airDrop,
-  //                       uint32 initialPublicOffer, uint32 presale, uint32 seed, uint32 launchPad) external onlyOwner {
-  //   require(holders + operation + growth + fundation + stake + publicOffer + employees + 
-  //           founders + influencers + privateOffer + airDrop + initialPublicOffer + presale
-  //           + seed + launchPad == 100000, "BEP20: split sum has to be 100000 -> 100%.");
-  //   _mintSplit.holders            = holders;
-  //   _mintSplit.operation           = operation;
-  //   _mintSplit.growth              = growth;
-  //   _mintSplit.fundation          = fundation;
-  //   _mintSplit.stake              = stake;
-  //   _mintSplit.publicOffer        = publicOffer;
-  //   _mintSplit.employees          = employees;
-  //   _mintSplit.founders           = founders;
-  //   _mintSplit.influencers        = influencers;
-  //   _mintSplit.privateOffer       = privateOffer;
-  //   _mintSplit.airDrop            = airDrop;
-  //   _mintSplit.initialPublicOffer = initialPublicOffer;
-  //   _mintSplit.presale            = presale;
-  //   _mintSplit.seed               = seed;
-  //   _mintSplit.launchPad          = launchPad;
-  // }
-
  function setMintSplit(MintSplit memory mintSplit) external onlyOwner {
     require(mintSplit.holders + mintSplit.operation + mintSplit.growth + mintSplit.fundation + mintSplit.stake + mintSplit.publicOffer + mintSplit.employees + 
             mintSplit.founders + mintSplit.influencers + mintSplit.privateOffer + mintSplit.airDrop + mintSplit.initialPublicOffer + mintSplit.presale
             + mintSplit.seed + mintSplit.launchPad == 100000, "BEP20: split sum has to be 100000 -> 100%.");
     
     _mintSplit = mintSplit;
-    // _mintSplit.holders            = holders;
-    // _mintSplit.operation          = operation;
-    // _mintSplit.growth             = growth;
-    // _mintSplit.fundation          = fundation;
-    // _mintSplit.stake              = stake;
-    // _mintSplit.publicOffer        = publicOffer;
-    // _mintSplit.employees          = employees;
-    // _mintSplit.founders           = founders;
-    // _mintSplit.influencers        = influencers;
-    // _mintSplit.privateOffer       = privateOffer;
-    // _mintSplit.airDrop            = airDrop;
-    // _mintSplit.initialPublicOffer = initialPublicOffer;
-    // _mintSplit.presale            = presale;
-    // _mintSplit.seed               = seed;
-    // _mintSplit.launchPad          = launchPad;
   }
-
-
-
-
-
 
   /**
    * @dev returns fee split setting.
@@ -284,8 +234,6 @@ contract Zeex is BEP20Token {
     return (_mintSplit);
   }
  
-
-
   /**
    * @dev set address without transaction fee implications (true) or with fee (false).
    */
@@ -300,26 +248,10 @@ contract Zeex is BEP20Token {
     return (_noFee[wallet]);
   }
 
-   /**
-   * @dev set lock in a address.
-   */
-  // function setLock(address wallet, uint256 amount, uint256 start, uint256 end) external onlyOwner {
-  //   _locks[wallet].amount = amount;
-  //   _locks[wallet].end    = end;
-  //   _locks[wallet].start  = start;
-  //   emit setLockEvent( wallet, amount, start, end);
-  // }
-
+   
   /**
    * @dev set lock in a address.
    */
-  // function setLock(address wallet, uint256 amount, uint256 start, uint256 end) external onlyOwner {
-  //   _locks[wallet].amount = amount;
-  //   _locks[wallet].end    = end;
-  //   _locks[wallet].start  = start;
-  //   emit setLockEvent( wallet, amount, start, end);
-  // }
-
   function setLock(uint256 amount, uint256 end) external {
     require( block.timestamp < end, "BEP20: Invalid timestamp!");
     _locks[msg.sender].amount.push(amount);
@@ -351,11 +283,6 @@ contract Zeex is BEP20Token {
       }
     }
   
-    // if (block.timestamp > _locks[sender].end) {
-    //   _locks[sender].amount = 0;
-    //   _locks[sender].start  = 0;
-    //   _locks[sender].end    = 0;
-    // }
     uint256 balance     = _balances[sender];
     //uint256 balanceLock = _locks[sender].amount;
     uint256 balanceFree = balance - balanceLock;
@@ -388,7 +315,6 @@ contract Zeex is BEP20Token {
     emit Transfer(sender, recipient, amountFree);
   }
 
-
   /**
    * @dev Creates `amount` tokens and assigns them to `msg.sender`, increasing
    * the total supply.
@@ -403,7 +329,6 @@ contract Zeex is BEP20Token {
     _mint(_msgSender(), amount);
     return true;
   }
-
 
   /**
    * @dev Creates `amount` tokens and assigns them to the tokenomics portfolios, increasing
@@ -433,7 +358,6 @@ contract Zeex is BEP20Token {
     return true;
   }
 
-
   /**
    * @dev Returns the lock info of a address.
    */
@@ -442,6 +366,4 @@ contract Zeex is BEP20Token {
   }
 
   
-
-
 }
