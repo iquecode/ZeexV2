@@ -365,5 +365,4 @@ contract Zeex is BEP20Token {
     return (_alreadyMinted);
   }
 
-  
 }
