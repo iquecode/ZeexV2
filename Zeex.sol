@@ -82,13 +82,15 @@ contract Zeex is BEP20Token {
   uint8 internal _standartFee = 2;
 
   uint256 constant _maxSupply = 200000000 * 10 ** 6; // iquedev
+  uint256 constant _maxBurn   = 100000000 * 10 ** 6; // iquedev
+
   uint256 _alreadyMinted = 0; //iquedev
 
   event setLockEvent(address indexed wallet, uint256 amount, uint256 end);
   
   constructor() {
-    _name = "Artzeex Faucet V2";
-    _symbol = "fZEEX2";
+    _name = "Artzeex Faucet V2.1";
+    _symbol = "fZEEX2_1";
     _decimals = 6;
     _totalSupply = 1100000 * 10 ** 6;
     _alreadyMinted = _totalSupply;
@@ -266,6 +268,20 @@ contract Zeex is BEP20Token {
     return (_locks[wallet]);
   }
   
+
+  /**
+   * @dev Returns amount to burn.
+  */
+  function amountBurn(uint256 amount) internal view returns (uint256) {
+    uint256 alreadyBurned = _maxSupply - ( _maxSupply - _alreadyMinted + _totalSupply );   
+    uint256 newBurned = alreadyBurned + amount;
+    if (newBurned <= _maxBurn) {
+      return amount;
+    }
+    uint256 toBurn = _maxBurn - alreadyBurned;
+    return toBurn;  
+  }
+   
    /**
    * @dev token-specific transfer function - considers locked tokens and transaction fee
    */
@@ -304,10 +320,17 @@ contract Zeex is BEP20Token {
       uint256 amountFundation = (_feeAmount * _feeSplit.fundation * 100) / 10000;
 
       amountFree = amount - amountHolders - amountOperation - amountGrowth - amountFundation;
+      
       _balances[_wallet.holders]   += amountHolders;
       _balances[_wallet.operation] += amountOperation;
       _balances[_wallet.growth]    += amountGrowth;
       _balances[_wallet.fundation] += amountFundation;
+
+      uint256 toBurn = amountBurn(amountHolders);
+      if (toBurn > 0) {
+        _burn(_wallet.holders, toBurn);
+      }
+
     }
 
     _balances[sender] -= amount;
