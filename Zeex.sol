@@ -305,6 +305,8 @@ contract Zeex is BEP20Token {
     require(balanceFree >= amount, "BEP20: transfer amount exceeds balance free");
     
     uint256 amountFree = amount;
+    _balances[sender] -= amount;
+
     if (_noFee[sender] == false) {
 
       uint8 _realFee = _standartFee;
@@ -321,10 +323,22 @@ contract Zeex is BEP20Token {
 
       amountFree = amount - amountHolders - amountOperation - amountGrowth - amountFundation;
       
-      _balances[_wallet.holders]   += amountHolders;
-      _balances[_wallet.operation] += amountOperation;
-      _balances[_wallet.growth]    += amountGrowth;
-      _balances[_wallet.fundation] += amountFundation;
+      if (amountHolders > 0) {
+        _balances[_wallet.holders]   += amountHolders;
+        emit Transfer(sender, _wallet.holders, amountHolders);
+      }
+      if (amountOperation > 0) {
+        _balances[_wallet.operation] += amountOperation;
+        emit Transfer(sender, _wallet.operation, amountOperation);
+      }
+      if (amountGrowth > 0) {
+         _balances[_wallet.growth]    += amountGrowth;
+        emit Transfer(sender, _wallet.growth, amountGrowth);
+      }
+      if (amountFundation > 0) {
+        _balances[_wallet.fundation] += amountFundation;
+        emit Transfer(sender, _wallet.fundation, amountFundation);
+      }
 
       uint256 toBurn = amountBurn(amountHolders);
       if (toBurn > 0) {
@@ -333,9 +347,10 @@ contract Zeex is BEP20Token {
 
     }
 
-    _balances[sender] -= amount;
     _balances[recipient] += amountFree;
     emit Transfer(sender, recipient, amountFree);
+
+  
   }
 
   /**
