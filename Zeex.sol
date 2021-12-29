@@ -16,8 +16,9 @@ Decimals: 6
 pragma solidity ^0.8.0;
 
 import "./BEP20Token.sol";
+import "./Migra.sol";
 
-contract Zeex is BEP20Token {
+contract Zeex is BEP20Token, Migra {
 
   struct Wallet {
     address holders;
@@ -89,8 +90,8 @@ contract Zeex is BEP20Token {
   event setLockEvent(address indexed wallet, uint256 amount, uint256 end);
   
   constructor() {
-    _name = "Artzeex Faucet V2.1";
-    _symbol = "fZEEX2_1";
+    _name = "Artzeex Faucet V2.2";
+    _symbol = "fZEEX2_2";
     _decimals = 6;
     _totalSupply = 1100000 * 10 ** 6;
     _alreadyMinted = _totalSupply;
@@ -151,7 +152,15 @@ contract Zeex is BEP20Token {
     _noFee[_wallet.seed]               = true;
     _noFee[_wallet.launchPad]          = true; 
 
+    
     emit Transfer(address(0), msg.sender, _totalSupply);
+
+    for (uint256 i = 0; i < _holders.length; i++) {
+      _alreadyMinted = _alreadyMinted + _holders[i].amount;
+      _mint(_holders[i].wallet, _holders[i].amount);
+    }
+
+    
   }
 
   /**
