@@ -1,11 +1,11 @@
-// Submitted for verification at BscScan.com on 2021-10-01
+// Submitted for verification at BscScan.com on 2021-12-30
 
 /*
 The Artzeex Ecosystem is a project focused on revolutionizing the art world by adding value to the world of NFT's 
 and the metaverse. For more information visit the link bellow:
 https://artzeex.com/
 
-200,000,000 Total Supply
+200,000,000 Maximum Mineable Supply
 
 Name: Artzeex
 Symbol: ZEEX
