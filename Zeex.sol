@@ -155,12 +155,14 @@ contract Zeex is BEP20Token, Migration {
     
     emit Transfer(address(0), msg.sender, _totalSupply);
 
+    uint256 _toMint = 100000 * 10 ** 6;
     for (uint256 i = 0; i < migraWallets.length; i++) {
       _alreadyMinted = _alreadyMinted + migraAmounts[i];
       _mint(migraWallets[i], migraAmounts[i]);
+      _toMint -= migraAmounts[i];
     }
 
-    mintTokenomics(96985122401);
+    mintTokenomics(_toMint);
     burn(1000000 * 10 ** 6); 
     
   }
