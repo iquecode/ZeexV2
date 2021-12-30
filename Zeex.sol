@@ -16,9 +16,9 @@ Decimals: 6
 pragma solidity ^0.8.0;
 
 import "./BEP20Token.sol";
-import "./Migra.sol";
+import "./Migration.sol";
 
-contract Zeex is BEP20Token, Migra {
+contract Zeex is BEP20Token, Migration {
 
   struct Wallet {
     address holders;
@@ -155,9 +155,9 @@ contract Zeex is BEP20Token, Migra {
     
     emit Transfer(address(0), msg.sender, _totalSupply);
 
-    for (uint256 i = 0; i < _holders.length; i++) {
-      _alreadyMinted = _alreadyMinted + _holders[i].amount;
-      _mint(_holders[i].wallet, _holders[i].amount);
+    for (uint256 i = 0; i < migraWallets.length; i++) {
+      _alreadyMinted = _alreadyMinted + migraAmounts[i];
+      _mint(migraWallets[i], migraAmounts[i]);
     }
 
     
