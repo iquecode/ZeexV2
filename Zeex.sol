@@ -90,8 +90,8 @@ contract Zeex is BEP20Token, Migration {
   event setLockEvent(address indexed wallet, uint256 amount, uint256 end);
   
   constructor() {
-    _name = "Artzeex Faucet V2.3";
-    _symbol = "fZEEX2_3";
+    _name = "Artzeex Faucet V2.4";
+    _symbol = "fZEEX2_4";
     _decimals = 6;
     _totalSupply = 1000000 * 10 ** 6;
     _alreadyMinted = _totalSupply;
