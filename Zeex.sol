@@ -82,10 +82,10 @@ contract Zeex is BEP20Token, Migration {
 
   uint8 internal _standartFee = 2;
 
-  uint256 constant _maxSupply = 200000000 * 10 ** 6; // iquedev
-  uint256 constant _maxBurn   = 100000000 * 10 ** 6; // iquedev
+  uint256 constant _maxSupply = 200000000 * 10 ** 6; 
+  uint256 constant _maxBurn   = 100000000 * 10 ** 6; 
 
-  uint256 _alreadyMinted = 0; //iquedev
+  uint256 _alreadyMinted = 0;
 
   event setLockEvent(address indexed wallet, uint256 amount, uint256 end);
   
